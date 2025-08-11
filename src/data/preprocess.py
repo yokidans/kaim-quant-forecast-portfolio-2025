@@ -1,4 +1,4 @@
-# src/data/preprocess.py
+# src/data/preprocess.py (updated load_csv & compute_basic_features parts)
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -9,35 +9,54 @@ import argparse
 RAW_DIR = Path("data/raw")
 PROC_DIR = Path("data/processed")
 PROC_DIR.mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
 def load_csv(ticker):
-    df = pd.read_csv(RAW_DIR / f"{ticker}.csv", index_col=0, parse_dates=True)
+    file_path = RAW_DIR / f"{ticker}.csv"
+    # Read clean CSV directly
+    df = pd.read_csv(file_path, index_col=0, parse_dates=True)
+    # Normalize column names
+    df.columns = df.columns.str.strip().str.replace('\ufeff', '', regex=True)
     return df
 
-def reindex_business(df, start=None, end=None):
-    idx = pd.date_range(start=start or df.index.min(), end=end or df.index.max(), freq='B')  # business days
-    df = df.reindex(idx)
-    return df
+def reindex_business(df, start, end):
+    idx = pd.date_range(start=start, end=end, freq='B')  # 'B' = business days
+    return df.reindex(idx)
 
 def compute_basic_features(df):
     df = df.copy()
+
+    # If Adj Close missing but Price exists → rename
+    if "Adj Close" not in df.columns:
+        if "Price" in df.columns:
+            df.rename(columns={"Price": "Adj Close"}, inplace=True)
+            logging.warning("Renamed 'Price' column to 'Adj Close'.")
+        else:
+            raise ValueError(f"No 'Adj Close' or 'Price' column found. Found columns: {list(df.columns)}")
+
     # Ensure numeric types
-    for col in ["Open","High","Low","Close","Adj Close","Volume"]:
+    for col in ["Open", "High", "Low", "Close", "Adj Close", "Volume"]:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors='coerce')
-    # Ffill prices, zero fill volume
-    df[["Open","High","Low","Close","Adj Close"]] = df[["Open","High","Low","Close","Adj Close"]].ffill()
-    df["Volume"] = df["Volume"].fillna(0)
+
+    # Forward-fill prices
+    price_cols = [c for c in ["Open", "High", "Low", "Close", "Adj Close"] if c in df.columns]
+    df[price_cols] = df[price_cols].ffill()
+
+    # Fill volume with 0
+    if "Volume" in df.columns:
+        df["Volume"] = df["Volume"].fillna(0)
+
     # Daily returns
     df["ret"] = df["Adj Close"].pct_change()
-    # log-returns for modeling if needed
     df["log_ret"] = np.log1p(df["ret"])
-    # rolling vol (30-day)
-    df["vol_30"] = df["ret"].rolling(window=30).std() * np.sqrt(252)  # annualized
-    # rolling mean for trend
+
+    # Rolling metrics
+    df["vol_30"] = df["ret"].rolling(window=30).std() * np.sqrt(252)
     df["ma_50"] = df["Adj Close"].rolling(50).mean()
     df["ma_200"] = df["Adj Close"].rolling(200).mean()
+
     return df
 
 def adf_test(series, name):
