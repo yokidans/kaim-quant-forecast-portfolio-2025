@@ -8,22 +8,41 @@ This project aims to build a quantitative forecasting and portfolio management s
 
 ## Repository Structure
 
-## kaim-quant-forecast-portfolio-2025/
-## │
-## ├── data/
-## │ ├── raw/ # Raw CSV files downloaded from data fetch step
-## │ └── processed/ # Cleaned and processed datasets
-## │
-## ├── src/
-## │ ├── data/
-## │ │ ├── fetch_data.py # Script to fetch raw market data using yfinance or similar
-## │ │ ├── preprocess.py # Script to preprocess raw CSV data, clean, compute returns, and statistics
-## │ │ └── utils.py # Utility functions (e.g., reindex_business, etc.)
-## │ │
-## │ └── models/ # Modeling scripts (future)
-## │
-## ├── requirements.txt # Python dependencies
-## └── README.md # This document
+### kaim-quant-forecast-portfolio-2025/
+### ├─ README.md
+### ├─ requirements.txt
+### ├─ environment.yml            # optional conda env
+### ├─ LICENSE
+### ├─ data/
+### │  ├─ raw/                    # raw downloaded CSVs
+### │  └─ processed/              # cleaned and feature-engineered csvs
+### ├─ notebooks/
+### │  ├─ 01_EDA.ipynb
+### │  ├─ 02_ARIMA_modeling.ipynb
+### │  └─ 03_LSTM_modeling.ipynb
+### ├─ src/
+### │  ├─ __init__.py
+### │  ├─ data/
+### │  │  ├─ fetch_data.py
+### │  │  └─ preprocess.py
+### │  ├─ features/
+### │  │  └─ feature_engineering.py
+### │  ├─ models/
+### │  │  ├─ arima_model.py
+### │  │  └─ lstm_model.py
+### │  ├─ portfolio/
+### │  │  └─ optimize_portfolio.py
+### │  ├─ backtest/
+### │  │  └─ backtest.py
+### │  └─ utils/
+### │     ├─ metrics.py
+### │     └─ viz.py
+### ├─ reports/
+### │  └─ Investment_Memo.pdf     # final output
+### └─ scripts/
+###    ├─ run_all.sh              # reproducible end-to-end run script
+###    └─ run_interim.sh          # runs Task 1 only (for interim)
+
 
 ---
 
@@ -66,20 +85,14 @@ Missing values for TSLA:
 {'Open': 2632, 'High': 2632, ...}
 Stats are all NaN.
 Likely causes:
-
-CSV files are empty or corrupted.
-
-Date parsing mismatch causing index misalignment.
-
-Reindexing to dates outside the data range, creating all-NaN rows.
+- CSV files are empty or corrupted.
+- Date parsing mismatch causing index misalignment.
+- Reindexing to dates outside the data range, creating all-NaN rows.
 
 Recommended to:
+- Inspect raw CSV files for validity.
+- Print DataFrame head immediately after loading.
+- Confirm date column and index handling.
+- Validate reindex_business generates correct date ranges.
 
-Inspect raw CSV files for validity.
-
-Print DataFrame head immediately after loading.
-
-Confirm date column and index handling.
-
-Validate reindex_business generates correct date ranges.
 
