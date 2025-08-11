@@ -1,0 +1,10 @@
+﻿# See README for versions. Run: pip install -r requirements.txt
+numpy
+pandas
+yfinance
+matplotlib
+statsmodels
+pmdarima
+scikit-learn
+tensorflow
+pypfopt
