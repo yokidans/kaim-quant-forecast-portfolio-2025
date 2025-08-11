@@ -1,4 +1,4 @@
-# src/data/preprocess.py (updated load_csv & compute_basic_features parts)
+# src/data/preprocess.py
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -13,42 +13,47 @@ PROC_DIR.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
 def load_csv(ticker):
-    file_path = RAW_DIR / f"{ticker}.csv"
-    # Read clean CSV directly
-    df = pd.read_csv(file_path, index_col=0, parse_dates=True)
-    # Normalize column names
-    df.columns = df.columns.str.strip().str.replace('\ufeff', '', regex=True)
+    file_path = RAW_DIR / f"{ticker}.csv"  # This is correct
+    if not file_path.exists():
+        raise FileNotFoundError(f"Missing file {file_path}")
+    df = pd.read_csv(file_path, parse_dates=["Date"])
+    df.set_index("Date", inplace=True)
     return df
 
 def reindex_business(df, start, end):
-    idx = pd.date_range(start=start, end=end, freq='B')  # 'B' = business days
+    """Reindex to business days for consistent time series."""
+    idx = pd.date_range(start=start, end=end, freq='B')
     return df.reindex(idx)
+
 
 def compute_basic_features(df):
     df = df.copy()
 
-    # If Adj Close missing but Price exists → rename
+    # Use Close if Adj Close is not available
     if "Adj Close" not in df.columns:
-        if "Price" in df.columns:
+        if "Close" in df.columns:
+            df["Adj Close"] = df["Close"]
+            logging.warning("Using 'Close' as 'Adj Close' since it's not available.")
+        elif "Price" in df.columns:
             df.rename(columns={"Price": "Adj Close"}, inplace=True)
             logging.warning("Renamed 'Price' column to 'Adj Close'.")
         else:
-            raise ValueError(f"No 'Adj Close' or 'Price' column found. Found columns: {list(df.columns)}")
+            raise ValueError(f"No suitable price column found. Found columns: {list(df.columns)}")
 
-    # Ensure numeric types
+    # Convert numeric columns
     for col in ["Open", "High", "Low", "Close", "Adj Close", "Volume"]:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors='coerce')
 
-    # Forward-fill prices
+    # Forward-fill missing prices
     price_cols = [c for c in ["Open", "High", "Low", "Close", "Adj Close"] if c in df.columns]
     df[price_cols] = df[price_cols].ffill()
 
-    # Fill volume with 0
+    # Fill missing volume with 0
     if "Volume" in df.columns:
         df["Volume"] = df["Volume"].fillna(0)
 
-    # Daily returns
+    # Returns
     df["ret"] = df["Adj Close"].pct_change()
     df["log_ret"] = np.log1p(df["ret"])
 
@@ -59,6 +64,7 @@ def compute_basic_features(df):
 
     return df
 
+
 def adf_test(series, name):
     series = series.dropna()
     if len(series) < 10:
@@ -66,11 +72,13 @@ def adf_test(series, name):
     res = adfuller(series, autolag='AIC')
     return {"adf_stat": res[0], "pvalue": res[1], "n_lags": res[2], "n_obs": res[3]}
 
+
 def var_historic(returns, level=0.05):
     returns = returns.dropna()
     if returns.empty:
         return np.nan
     return np.percentile(returns, 100 * level)
+
 
 def sharpe_ratio(returns, risk_free=0.0):
     r = returns.dropna()
@@ -82,15 +90,18 @@ def sharpe_ratio(returns, risk_free=0.0):
         return np.nan
     return (ann_ret - risk_free) / ann_vol
 
+
 def process_ticker(ticker, start=None, end=None):
     logging.info("Processing %s", ticker)
-    df = load_csv(ticker)
+    df = load_csv(ticker)  # Remove the file_path construction here
     df = reindex_business(df, start=start, end=end)
     df = compute_basic_features(df)
-    # missing check
+
+    # Missing value check
     missing = df.isna().sum()
     logging.info("Missing values for %s:\n%s", ticker, missing.to_dict())
-    # ADF tests
+
+    # ADF tests & stats
     adf_close = adf_test(df["Adj Close"], ticker + " Adj Close")
     adf_ret = adf_test(df["ret"], ticker + " returns")
     stats = {
@@ -100,25 +111,43 @@ def process_ticker(ticker, start=None, end=None):
         "sharpe": sharpe_ratio(df["ret"])
     }
     logging.info("Stats for %s: %s", ticker, stats)
+
+    # Save processed
     df.to_csv(PROC_DIR / f"{ticker}_processed.csv")
     return df, stats
 
+
 def main(args):
     all_stats = {}
-    for t in ["TSLA","BND","SPY"]:
+    tickers = ["TSLA", "BND", "SPY"]
+
+    for t in tickers:
         df, stats = process_ticker(t, start=args.start, end=args.end)
         all_stats[t] = stats
-    # save a combined dataset for merging price series (Adj Close)
+
+    # Merge series
     dfs = []
-    for t in ["TSLA","BND","SPY"]:
+    for t in tickers:
         df = pd.read_csv(PROC_DIR / f"{t}_processed.csv", index_col=0, parse_dates=True)
-        dfs.append(df[["Adj Close","ret"]].rename(columns={"Adj Close": f"{t}_adj", "ret": f"{t}_ret"}))
+        dfs.append(df[["Adj Close", "ret"]].rename(columns={"Adj Close": f"{t}_adj", "ret": f"{t}_ret"}))
+
     combined = pd.concat(dfs, axis=1)
     combined.to_csv(PROC_DIR / "combined_adj_and_returns.csv")
     logging.info("Saved combined processed data.")
-    # store stats
-    pd.DataFrame.from_dict({k: {"adf_close_p": v["adf_close"]["pvalue"], "adf_ret_p": v["adf_ret"]["pvalue"], "var_5pct": v["var_5pct"], "sharpe": v["sharpe"]} for k,v in all_stats.items()}, orient='index').to_csv(PROC_DIR / "summary_stats.csv")
+
+    # Save summary stats
+    pd.DataFrame.from_dict(
+        {k: {
+            "adf_close_p": v["adf_close"]["pvalue"],
+            "adf_ret_p": v["adf_ret"]["pvalue"],
+            "var_5pct": v["var_5pct"],
+            "sharpe": v["sharpe"]
+        } for k, v in all_stats.items()},
+        orient='index'
+    ).to_csv(PROC_DIR / "summary_stats.csv")
+
     logging.info("Done.")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
