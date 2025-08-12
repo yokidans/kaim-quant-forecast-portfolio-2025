@@ -1,0 +1,217 @@
+2025-08-12 20:01:36,577 - __main__ - INFO - Starting quantitative modeling for TSLA
+2025-08-12 20:02:15,315 - __main__ - INFO - ARIMA Model Summary:
+                               SARIMAX Results                                
+==============================================================================
+Dep. Variable:                      y   No. Observations:                 2176
+Model:               SARIMAX(2, 1, 2)   Log Likelihood               -6903.961
+Date:                Tue, 12 Aug 2025   AIC                          13817.921
+Time:                        20:02:15   BIC                          13846.345
+Sample:                    08-28-2015   HQIC                         13828.313
+                         - 12-29-2023                                         
+Covariance Type:                  opg                                         
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+ar.L1          0.7593      0.013     60.279      0.000       0.735       0.784
+ar.L2         -0.9211      0.014    -65.722      0.000      -0.949      -0.894
+ma.L1         -0.7973      0.009    -86.314      0.000      -0.815      -0.779
+ma.L2          0.9593      0.010     98.317      0.000       0.940       0.978
+sigma2        33.4631      0.408     81.947      0.000      32.663      34.263
+===================================================================================
+Ljung-Box (L1) (Q):                   0.01   Jarque-Bera (JB):             10729.68
+Prob(Q):                              0.94   Prob(JB):                         0.00
+Heteroskedasticity (H):             429.93   Skew:                            -0.13
+Prob(H) (two-sided):                  0.00   Kurtosis:                        13.88
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+2025-08-12 20:02:15,347 - __main__ - INFO - GARCH Model Summary:
+                     Constant Mean - GARCH Model Results                      
+==============================================================================
+Dep. Variable:                   None   R-squared:                       0.000
+Mean Model:             Constant Mean   Adj. R-squared:                  0.000
+Vol Model:                      GARCH   Log-Likelihood:               -4484.02
+Distribution:                  Normal   AIC:                           8976.03
+Method:            Maximum Likelihood   BIC:                           8998.77
+                                        No. Observations:                 2176
+Date:                Tue, Aug 12 2025   Df Residuals:                     2175
+Time:                        20:02:15   Df Model:                            1
+                                  Mean Model                                 
+=============================================================================
+                 coef    std err          t      P>|t|       95.0% Conf. Int.
+-----------------------------------------------------------------------------
+mu         7.3496e-03  1.700e-02      0.432      0.665 [-2.596e-02,4.066e-02]
+                              Volatility Model                              
+============================================================================
+                 coef    std err          t      P>|t|      95.0% Conf. Int.
+----------------------------------------------------------------------------
+omega      5.2903e-03  2.411e-03      2.194  2.821e-02 [5.650e-04,1.002e-02]
+alpha[1]       0.0939  1.357e-02      6.915  4.665e-12   [6.726e-02,  0.120]
+beta[1]        0.9061  1.290e-02     70.238      0.000     [  0.881,  0.931]
+============================================================================
+
+Covariance estimator: robust
+2025-08-12 20:02:15,456 - cmdstanpy - DEBUG - cmd: where.exe tbb.dll
+cwd: None
+2025-08-12 20:02:15,675 - cmdstanpy - DEBUG - Adding TBB (C:\Users\tefer\kaim-quant-forecast-portfolio-2025\.venv\lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-08-12 20:02:15,690 - __main__ - INFO - Added rsi as Prophet regressor
+2025-08-12 20:02:15,690 - __main__ - INFO - Added macd as Prophet regressor
+2025-08-12 20:02:15,690 - __main__ - INFO - Added bollinger_upper as Prophet regressor
+2025-08-12 20:02:15,690 - __main__ - INFO - Added bollinger_lower as Prophet regressor
+2025-08-12 20:02:15,690 - __main__ - INFO - Added volatility as Prophet regressor
+2025-08-12 20:02:15,831 - cmdstanpy - DEBUG - input tempfile: C:\Users\tefer\AppData\Local\Temp\tmp23g_uv1s\zah6ownr.json
+2025-08-12 20:02:16,347 - cmdstanpy - DEBUG - input tempfile: C:\Users\tefer\AppData\Local\Temp\tmp23g_uv1s\a4b0volo.json
+2025-08-12 20:02:16,347 - cmdstanpy - DEBUG - idx 0
+2025-08-12 20:02:16,347 - cmdstanpy - DEBUG - running CmdStan, num_threads: None
+2025-08-12 20:02:16,347 - cmdstanpy - DEBUG - CmdStan args: ['C:\\Users\\tefer\\kaim-quant-forecast-portfolio-2025\\.venv\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=18683', 'data', 'file=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmp23g_uv1s\\zah6ownr.json', 'init=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmp23g_uv1s\\a4b0volo.json', 'output', 'file=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmp23g_uv1s\\prophet_modelto0d3n4m\\prophet_model-20250812200216.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-08-12 20:02:16,347 - cmdstanpy - INFO - Chain [1] start processing
+2025-08-12 20:02:18,518 - cmdstanpy - INFO - Chain [1] done processing
+2025-08-12 20:05:19,022 - __main__ - INFO - LSTM model trained successfully
+2025-08-12 20:06:04,818 - __main__ - ERROR - Pipeline failed: All arrays must be of the same length
+2025-08-12 20:06:04,818 - __main__ - ERROR - Script execution failed: All arrays must be of the same length
+2025-08-12 20:24:39,737 - __main__ - INFO - Starting quantitative modeling for TSLA
+2025-08-12 20:25:21,056 - __main__ - INFO - ARIMA Model Summary:
+                               SARIMAX Results                                
+==============================================================================
+Dep. Variable:                      y   No. Observations:                 2176
+Model:               SARIMAX(2, 1, 2)   Log Likelihood               -6903.961
+Date:                Tue, 12 Aug 2025   AIC                          13817.921
+Time:                        20:25:21   BIC                          13846.345
+Sample:                    08-28-2015   HQIC                         13828.313
+                         - 12-29-2023                                         
+Covariance Type:                  opg                                         
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+ar.L1          0.7593      0.013     60.279      0.000       0.735       0.784
+ar.L2         -0.9211      0.014    -65.722      0.000      -0.949      -0.894
+ma.L1         -0.7973      0.009    -86.314      0.000      -0.815      -0.779
+ma.L2          0.9593      0.010     98.317      0.000       0.940       0.978
+sigma2        33.4631      0.408     81.947      0.000      32.663      34.263
+===================================================================================
+Ljung-Box (L1) (Q):                   0.01   Jarque-Bera (JB):             10729.68
+Prob(Q):                              0.94   Prob(JB):                         0.00
+Heteroskedasticity (H):             429.93   Skew:                            -0.13
+Prob(H) (two-sided):                  0.00   Kurtosis:                        13.88
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+2025-08-12 20:25:21,087 - __main__ - INFO - GARCH Model Summary:
+                     Constant Mean - GARCH Model Results                      
+==============================================================================
+Dep. Variable:                   None   R-squared:                       0.000
+Mean Model:             Constant Mean   Adj. R-squared:                  0.000
+Vol Model:                      GARCH   Log-Likelihood:               -4484.02
+Distribution:                  Normal   AIC:                           8976.03
+Method:            Maximum Likelihood   BIC:                           8998.77
+                                        No. Observations:                 2176
+Date:                Tue, Aug 12 2025   Df Residuals:                     2175
+Time:                        20:25:21   Df Model:                            1
+                                  Mean Model                                 
+=============================================================================
+                 coef    std err          t      P>|t|       95.0% Conf. Int.
+-----------------------------------------------------------------------------
+mu         7.3496e-03  1.700e-02      0.432      0.665 [-2.596e-02,4.066e-02]
+                              Volatility Model                              
+============================================================================
+                 coef    std err          t      P>|t|      95.0% Conf. Int.
+----------------------------------------------------------------------------
+omega      5.2903e-03  2.411e-03      2.194  2.821e-02 [5.650e-04,1.002e-02]
+alpha[1]       0.0939  1.357e-02      6.915  4.665e-12   [6.726e-02,  0.120]
+beta[1]        0.9061  1.290e-02     70.238      0.000     [  0.881,  0.931]
+============================================================================
+
+Covariance estimator: robust
+2025-08-12 20:25:21,212 - cmdstanpy - DEBUG - cmd: where.exe tbb.dll
+cwd: None
+2025-08-12 20:25:21,524 - cmdstanpy - DEBUG - Adding TBB (C:\Users\tefer\kaim-quant-forecast-portfolio-2025\.venv\lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-08-12 20:25:21,524 - __main__ - INFO - Added rsi as Prophet regressor
+2025-08-12 20:25:21,524 - __main__ - INFO - Added macd as Prophet regressor
+2025-08-12 20:25:21,524 - __main__ - INFO - Added bollinger_upper as Prophet regressor
+2025-08-12 20:25:21,524 - __main__ - INFO - Added bollinger_lower as Prophet regressor
+2025-08-12 20:25:21,540 - __main__ - INFO - Added volatility as Prophet regressor
+2025-08-12 20:25:21,696 - cmdstanpy - DEBUG - input tempfile: C:\Users\tefer\AppData\Local\Temp\tmptyl38qzw\d64seujk.json
+2025-08-12 20:25:22,321 - cmdstanpy - DEBUG - input tempfile: C:\Users\tefer\AppData\Local\Temp\tmptyl38qzw\u115ud0x.json
+2025-08-12 20:25:22,321 - cmdstanpy - DEBUG - idx 0
+2025-08-12 20:25:22,321 - cmdstanpy - DEBUG - running CmdStan, num_threads: None
+2025-08-12 20:25:22,321 - cmdstanpy - DEBUG - CmdStan args: ['C:\\Users\\tefer\\kaim-quant-forecast-portfolio-2025\\.venv\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=13014', 'data', 'file=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmptyl38qzw\\d64seujk.json', 'init=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmptyl38qzw\\u115ud0x.json', 'output', 'file=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmptyl38qzw\\prophet_modelg_6b5frg\\prophet_model-20250812202522.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-08-12 20:25:22,321 - cmdstanpy - INFO - Chain [1] start processing
+2025-08-12 20:25:24,493 - cmdstanpy - INFO - Chain [1] done processing
+2025-08-12 20:28:50,819 - __main__ - INFO - LSTM model trained successfully
+2025-08-12 20:29:34,382 - __main__ - ERROR - Pipeline failed: local variable 'models_dir' referenced before assignment
+2025-08-12 20:29:34,382 - __main__ - ERROR - Script execution failed: local variable 'models_dir' referenced before assignment
+2025-08-12 21:24:25,760 - __main__ - INFO - Starting quantitative modeling for TSLA
+2025-08-12 21:24:59,596 - __main__ - INFO - ARIMA Model Summary:
+                               SARIMAX Results                                
+==============================================================================
+Dep. Variable:                      y   No. Observations:                 2176
+Model:               SARIMAX(2, 1, 2)   Log Likelihood               -6903.961
+Date:                Tue, 12 Aug 2025   AIC                          13817.921
+Time:                        21:24:59   BIC                          13846.345
+Sample:                    08-28-2015   HQIC                         13828.313
+                         - 12-29-2023                                         
+Covariance Type:                  opg                                         
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+ar.L1          0.7593      0.013     60.279      0.000       0.735       0.784
+ar.L2         -0.9211      0.014    -65.722      0.000      -0.949      -0.894
+ma.L1         -0.7973      0.009    -86.314      0.000      -0.815      -0.779
+ma.L2          0.9593      0.010     98.317      0.000       0.940       0.978
+sigma2        33.4631      0.408     81.947      0.000      32.663      34.263
+===================================================================================
+Ljung-Box (L1) (Q):                   0.01   Jarque-Bera (JB):             10729.68
+Prob(Q):                              0.94   Prob(JB):                         0.00
+Heteroskedasticity (H):             429.93   Skew:                            -0.13
+Prob(H) (two-sided):                  0.00   Kurtosis:                        13.88
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+2025-08-12 21:24:59,612 - __main__ - INFO - GARCH Model Summary:
+                     Constant Mean - GARCH Model Results                      
+==============================================================================
+Dep. Variable:                   None   R-squared:                       0.000
+Mean Model:             Constant Mean   Adj. R-squared:                  0.000
+Vol Model:                      GARCH   Log-Likelihood:               -4484.02
+Distribution:                  Normal   AIC:                           8976.03
+Method:            Maximum Likelihood   BIC:                           8998.77
+                                        No. Observations:                 2176
+Date:                Tue, Aug 12 2025   Df Residuals:                     2175
+Time:                        21:24:59   Df Model:                            1
+                                  Mean Model                                 
+=============================================================================
+                 coef    std err          t      P>|t|       95.0% Conf. Int.
+-----------------------------------------------------------------------------
+mu         7.3496e-03  1.700e-02      0.432      0.665 [-2.596e-02,4.066e-02]
+                              Volatility Model                              
+============================================================================
+                 coef    std err          t      P>|t|      95.0% Conf. Int.
+----------------------------------------------------------------------------
+omega      5.2903e-03  2.411e-03      2.194  2.821e-02 [5.650e-04,1.002e-02]
+alpha[1]       0.0939  1.357e-02      6.915  4.665e-12   [6.726e-02,  0.120]
+beta[1]        0.9061  1.290e-02     70.238      0.000     [  0.881,  0.931]
+============================================================================
+
+Covariance estimator: robust
+2025-08-12 21:24:59,753 - cmdstanpy - DEBUG - cmd: where.exe tbb.dll
+cwd: None
+2025-08-12 21:25:00,034 - cmdstanpy - DEBUG - Adding TBB (C:\Users\tefer\kaim-quant-forecast-portfolio-2025\.venv\lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-08-12 21:25:00,034 - __main__ - INFO - Added rsi as Prophet regressor
+2025-08-12 21:25:00,034 - __main__ - INFO - Added macd as Prophet regressor
+2025-08-12 21:25:00,050 - __main__ - INFO - Added bollinger_upper as Prophet regressor
+2025-08-12 21:25:00,050 - __main__ - INFO - Added bollinger_lower as Prophet regressor
+2025-08-12 21:25:00,050 - __main__ - INFO - Added volatility as Prophet regressor
+2025-08-12 21:25:00,175 - cmdstanpy - DEBUG - input tempfile: C:\Users\tefer\AppData\Local\Temp\tmpox3qfw9c\9k71bvro.json
+2025-08-12 21:25:00,643 - cmdstanpy - DEBUG - input tempfile: C:\Users\tefer\AppData\Local\Temp\tmpox3qfw9c\brnpedso.json
+2025-08-12 21:25:00,643 - cmdstanpy - DEBUG - idx 0
+2025-08-12 21:25:00,643 - cmdstanpy - DEBUG - running CmdStan, num_threads: None
+2025-08-12 21:25:00,659 - cmdstanpy - DEBUG - CmdStan args: ['C:\\Users\\tefer\\kaim-quant-forecast-portfolio-2025\\.venv\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=7912', 'data', 'file=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmpox3qfw9c\\9k71bvro.json', 'init=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmpox3qfw9c\\brnpedso.json', 'output', 'file=C:\\Users\\tefer\\AppData\\Local\\Temp\\tmpox3qfw9c\\prophet_modeldwc5q7iz\\prophet_model-20250812212500.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-08-12 21:25:00,659 - cmdstanpy - INFO - Chain [1] start processing
+2025-08-12 21:25:02,721 - cmdstanpy - INFO - Chain [1] done processing
+2025-08-12 21:27:44,298 - __main__ - INFO - LSTM model trained successfully
+2025-08-12 21:28:18,970 - __main__ - INFO - All models saved to: models
+2025-08-12 21:28:18,970 - __main__ - INFO - Predictions file: models\TSLA_predictions.csv
+2025-08-12 21:28:18,970 - __main__ - INFO - Metrics file: models\TSLA_metrics.json
