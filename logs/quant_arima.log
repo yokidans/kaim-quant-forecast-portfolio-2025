@@ -215,3 +215,7 @@ cwd: None
 2025-08-12 21:28:18,970 - __main__ - INFO - All models saved to: models
 2025-08-12 21:28:18,970 - __main__ - INFO - Predictions file: models\TSLA_predictions.csv
 2025-08-12 21:28:18,970 - __main__ - INFO - Metrics file: models\TSLA_metrics.json
+2025-08-14 16:25:32,316 - __main__ - INFO - Starting quantitative modeling for TSLA
+2025-08-14 16:25:32,326 - __main__ - WARNING - Local data load failed: [Errno 2] No such file or directory: 'data\\processed\\quant_data.csv'. Using Yahoo Finance...
+2025-08-14 16:25:35,795 - __main__ - ERROR - Pipeline failed: 'Adj Close'
+2025-08-14 16:25:35,798 - __main__ - ERROR - Script execution failed: 'Adj Close'

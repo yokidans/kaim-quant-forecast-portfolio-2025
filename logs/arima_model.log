@@ -1,0 +1,37 @@
+2025-08-14 16:27:44,542 INFO Python version: 3.10.8 (tags/v3.10.8:aaaf517, Oct 11 2022, 16:50:30) [MSC v.1933 64 bit (AMD64)]
+2025-08-14 16:27:44,542 INFO NumPy version: 1.23.5
+2025-08-14 16:27:44,542 INFO Pandas version: 1.5.3
+2025-08-14 16:27:44,589 INFO Train length: 2218, Test length: 414
+2025-08-14 16:29:33,733 INFO Auto-ARIMA selected:                                SARIMAX Results                                
+==============================================================================
+Dep. Variable:                      y   No. Observations:                 2218
+Model:               SARIMAX(2, 1, 2)   Log Likelihood               -7016.282
+Date:                Thu, 14 Aug 2025   AIC                          14042.565
+Time:                        16:29:33   BIC                          14071.084
+Sample:                    07-01-2015   HQIC                         14052.982
+                         - 12-29-2023                                         
+Covariance Type:                  opg                                         
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+ar.L1          0.7596      0.012     61.410      0.000       0.735       0.784
+ar.L2         -0.9211      0.014    -66.957      0.000      -0.948      -0.894
+ma.L1         -0.7975      0.009    -87.909      0.000      -0.815      -0.780
+ma.L2          0.9594      0.010    100.174      0.000       0.941       0.978
+sigma2        32.8395      0.393     83.567      0.000      32.069      33.610
+===================================================================================
+Ljung-Box (L1) (Q):                   0.01   Jarque-Bera (JB):             11471.42
+Prob(Q):                              0.94   Prob(JB):                         0.00
+Heteroskedasticity (H):             430.70   Skew:                            -0.13
+Prob(H) (two-sided):                  0.00   Kurtosis:                        14.14
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+2025-08-14 16:29:34,103 INFO ARIMA MAE=63.7602 RMSE=78.8906 MAPE=24.2242%
+2025-08-14 16:33:17,803 INFO Python version: 3.10.8 (tags/v3.10.8:aaaf517, Oct 11 2022, 16:50:30) [MSC v.1933 64 bit (AMD64)]
+2025-08-14 16:33:17,944 INFO NumPy version: 1.23.5
+2025-08-14 16:33:18,053 INFO Pandas version: 1.5.3
+2025-08-14 16:33:33,334 INFO Python version: 3.10.8 (tags/v3.10.8:aaaf517, Oct 11 2022, 16:50:30) [MSC v.1933 64 bit (AMD64)]
+2025-08-14 16:33:33,334 INFO NumPy version: 1.23.5
+2025-08-14 16:33:33,334 INFO Pandas version: 1.5.3
